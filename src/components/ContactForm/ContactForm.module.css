@@ -1,0 +1,49 @@
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 20px;
+  padding: 20px;
+  width: 390px;
+  border: 1px solid #000;
+  border-radius: 8px;
+}
+
+input {
+  width: 350px;
+  height: 40px;
+  padding: 8px 20px;
+  border: 1px solid #000;
+  border-radius: 8px;
+}
+
+label:nth-child(3) {
+  margin-top: 40px;
+}
+
+.submit {
+  align-self: center;
+  cursor: pointer;
+  margin-top: 40px;
+  padding: 8px 16px;
+  border-radius: 8px;
+}
+
+.find {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  width: 390px;
+}
+
+.searchBar {
+  width: 390px;
+}
+
+.search {
+  position: absolute;
+  top: 36px;
+  right: 12px;
+}
