@@ -38,7 +38,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    values.length !== data.length ? localStorage.setItem('localData', JSON.stringify(values)) : '';
+    values !== data ? localStorage.setItem('localData', JSON.stringify(values)) : '';
   }, [values]);
 
   const handlerDelete = event => {
@@ -47,7 +47,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    values.length !== data.length && values.length !== 0
+    values !== data && values.length !== 0
       ? localStorage.setItem('localData', JSON.stringify(values))
       : localStorage.removeItem('localData');
   }, [values]);
