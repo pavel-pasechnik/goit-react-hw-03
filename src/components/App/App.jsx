@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { nanoid } from 'nanoid';
+import { useState, useEffect } from 'react';
 import ContactForm from '../ContactForm/ContactForm';
 import { Formik } from 'formik';
+import * as Yup from 'yup';
 import SearchBox from '../SearchBox/SearchBox';
 import ContactList from '../ContactList/ContactList';
 import css from './App.module.css';
@@ -12,38 +14,64 @@ const data = [
   { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
 ];
 
-export default function App() {
-  const [values, setValues] = useState('');
+const FeedbackSchema = Yup.object().shape({
+  name: Yup.string().min(3, 'Too Short!').max(50, 'Too Long!').required('Required'),
+  number: Yup.string().min(3, 'Too Short!').max(50, 'Too Long!').required('Required'),
+});
 
-  const initialValues = {
-    name: '',
-    number: '',
-    id: '',
+const initialValues = {
+  id: '',
+  name: '',
+  number: '',
+};
+
+export default function App() {
+  const [values, setValues] = useState(() => {
+    const storedReviews = localStorage.getItem('localData');
+    return storedReviews ? JSON.parse(storedReviews) : data;
+  });
+  const [searchValue, setSearchValue] = useState('');
+
+  const handleSubmit = (value, actions) => {
+    setValues([...values, { ...value, id: nanoid() }]);
+    actions.resetForm();
   };
 
+  useEffect(() => {
+    values.length !== data.length ? localStorage.setItem('localData', JSON.stringify(values)) : '';
+  }, [values]);
+
+  const handlerDelete = event => {
+    const idToDelete = event.target.getAttribute('id');
+    setValues(values.filter(value => value.id !== idToDelete));
+  };
+
+  useEffect(() => {
+    values.length !== data.length && values.length !== 0
+      ? localStorage.setItem('localData', JSON.stringify(values))
+      : localStorage.removeItem('localData');
+  }, [values]);
+
   const handleSearch = event => {
-    setValues(event.target.value);
+    setSearchValue(event.target.value);
   };
 
   const Filtered =
-    values.trim() !== ''
-      ? data.filter(value => value.name.toLowerCase().includes(values.toLowerCase().trim()))
-      : data;
-
-  const handleSubmit = (values, actions) => {
-    data.push(values); // ! remake
-    console.log(data);
-    actions.resetForm();
-  };
+    searchValue.trim() !== ''
+      ? values.filter(value => value.name.toLowerCase().includes(searchValue.toLowerCase().trim()))
+      : values;
 
   return (
     <div className={css.app}>
       <h1>Phonebook</h1>
-      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-        <ContactForm onSearch={handleSearch} />
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        validationSchema={FeedbackSchema}>
+        <ContactForm />
       </Formik>
-      <SearchBox />
-      <ContactList contacts={Filtered} />
+      <SearchBox onSearch={handleSearch} />
+      <ContactList contacts={Filtered} onDelete={handlerDelete} />
     </div>
   );
 }

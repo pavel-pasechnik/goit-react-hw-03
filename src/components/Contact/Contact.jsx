@@ -2,7 +2,7 @@ import { IoPersonSharp } from 'react-icons/io5';
 import { FaPhoneAlt } from 'react-icons/fa';
 import css from './Contact.module.css';
 
-export default function Contact({ name, phone }) {
+export default function Contact({ name, phone, id, onSubmit }) {
   return (
     <>
       <div className={css.wrapper}>
@@ -15,7 +15,7 @@ export default function Contact({ name, phone }) {
           <p>{phone}</p>
         </div>
       </div>
-      <button className={css.button} type='button'>
+      <button className={css.button} type='button' id={id} onClick={onSubmit}>
         Delete
       </button>
     </>

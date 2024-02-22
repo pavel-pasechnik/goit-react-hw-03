@@ -1,4 +1,5 @@
 form {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -11,6 +12,8 @@ form {
 }
 
 input {
+  display: block;
+  margin-bottom: 40px;
   width: 350px;
   height: 40px;
   padding: 8px 20px;
@@ -18,8 +21,20 @@ input {
   border-radius: 8px;
 }
 
-label:nth-child(3) {
+label:nth-child(4) {
   margin-top: 40px;
+}
+
+.spanName {
+  position: absolute;
+  top: 88px;
+  color: red;
+}
+
+.spanNumber {
+  position: absolute;
+  top: 192px;
+  color: red;
 }
 
 .submit {
@@ -28,22 +43,4 @@ label:nth-child(3) {
   margin-top: 40px;
   padding: 8px 16px;
   border-radius: 8px;
-}
-
-.find {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  margin-top: 20px;
-  width: 390px;
-}
-
-.searchBar {
-  width: 390px;
-}
-
-.search {
-  position: absolute;
-  top: 36px;
-  right: 12px;
 }
