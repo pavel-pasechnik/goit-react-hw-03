@@ -21,7 +21,7 @@ export default function ContactForm() {
           <ErrorMessage name='number' as='span' />
         </span>
         <button className={css.submit} type='submit'>
-          Added contact
+          Add contact
         </button>
       </Form>
     </>
