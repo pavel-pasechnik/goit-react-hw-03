@@ -1,8 +1,7 @@
 import { nanoid } from 'nanoid';
 import { useState, useEffect } from 'react';
 import ContactForm from '../ContactForm/ContactForm';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
+
 import SearchBox from '../SearchBox/SearchBox';
 import ContactList from '../ContactList/ContactList';
 import css from './App.module.css';
@@ -13,11 +12,6 @@ const data = [
   { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
   { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
 ];
-
-const FeedbackSchema = Yup.object().shape({
-  name: Yup.string().min(3, 'Too Short!').max(50, 'Too Long!').required('Required'),
-  number: Yup.string().min(3, 'Too Short!').max(50, 'Too Long!').required('Required'),
-});
 
 const initialValues = {
   id: '',
@@ -41,15 +35,14 @@ export default function App() {
     values !== data ? localStorage.setItem('localData', JSON.stringify(values)) : '';
   }, [values]);
 
-  const handlerDelete = event => {
-    const idToDelete = event.target.getAttribute('id');
+  const handlerDelete = idToDelete => {
     setValues(values.filter(value => value.id !== idToDelete));
   };
 
   useEffect(() => {
     values !== data && values.length !== 0
       ? localStorage.setItem('localData', JSON.stringify(values))
-      : localStorage.removeItem('localData');
+      : '';
   }, [values]);
 
   const handleSearch = event => {
@@ -64,13 +57,8 @@ export default function App() {
   return (
     <div className={css.app}>
       <h1>Phonebook</h1>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={handleSubmit}
-        validationSchema={FeedbackSchema}>
-        <ContactForm />
-      </Formik>
-      <SearchBox onSearch={handleSearch} />
+      <ContactForm initialValues={initialValues} onAdd={handleSubmit} />
+      <SearchBox inputValue={searchValue} onChange={handleSearch} />
       <ContactList contacts={Filtered} onDelete={handlerDelete} />
     </div>
   );

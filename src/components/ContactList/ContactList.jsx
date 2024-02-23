@@ -14,7 +14,7 @@ export default function ContactList({ contacts, onDelete }) {
                   name={contact.name}
                   phone={contact.number}
                   id={contact.id}
-                  onSubmit={onDelete}
+                  onDelete={onDelete}
                 />
               </li>
             );

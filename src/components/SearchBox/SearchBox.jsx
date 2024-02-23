@@ -2,7 +2,7 @@ import { useId } from 'react';
 import { IoIosSearch } from 'react-icons/io';
 import css from './SearchBox.module.css';
 
-export default function SearchBox({ onSearch }) {
+export default function SearchBox({ inputValue, onChange }) {
   const searchBarId = useId();
 
   return (
@@ -13,7 +13,8 @@ export default function SearchBox({ onSearch }) {
         type='text'
         name='searchBar'
         id={searchBarId}
-        onChange={onSearch}
+        value={inputValue}
+        onChange={onChange}
       />
       <IoIosSearch className={css.search} />
     </div>
